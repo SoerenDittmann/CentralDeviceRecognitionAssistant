@@ -1,0 +1,921 @@
+{
+  "vibration_sensor": {
+    "Name": "Vibration",
+    "Type": "uda:float",
+    "Encoding": "ascii",
+    "access": "rw",
+    "unit": "Hertz [Hz]",
+    "description": "The vibration of a system"
+  },
+  "position_sensor": {
+    "output current": {
+      "Code": "0112/2///61360_4#AAE867",
+      "ShortName.EN": "I_open",
+      "PrimaryUnit": "A"
+    },
+    "substrate temperature": {
+      "Code": "0112/2///61360_4#AAE868",
+      "ShortName.EN": "T_s",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "hysteresis in switching distance": {
+      "Code": "0112/2///61360_4#AAE869",
+      "ShortName.EN": "H",
+      "PrimaryUnit": "%"
+    },
+    "substrate length": {
+      "Code": "0112/2///61360_4#AAE870",
+      "ShortName.EN": "L_s",
+      "PrimaryUnit": "m"
+    },
+    "substrate width": {
+      "Code": "0112/2///61360_4#AAE871",
+      "ShortName.EN": "W_s",
+      "PrimaryUnit": "m"
+    },
+    "operating frequency": {
+      "Code": "0112/2///61360_4#AAE872",
+      "ShortName.EN": "f_sw",
+      "PrimaryUnit": "Hz"
+    },
+    "main class of component": {
+      "Code": "0112/2///61360_4#AAE001",
+      "ShortName.EN": "main class",
+      "PrimaryUnit": null
+    },
+    "category EE component": {
+      "Code": "0112/2///61360_4#AAE002",
+      "ShortName.EN": "category EE",
+      "PrimaryUnit": null
+    },
+    "terminal shape": {
+      "Code": "0112/2///61360_4#AAE007",
+      "ShortName.EN": "terminal shape",
+      "PrimaryUnit": null
+    },
+    "terminal placement": {
+      "Code": "0112/2///61360_4#AAE008",
+      "ShortName.EN": "terminal place",
+      "PrimaryUnit": null
+    },
+    "outside diameter": {
+      "Code": "0112/2///61360_4#AAE022",
+      "ShortName.EN": "d_out",
+      "PrimaryUnit": "m"
+    },
+    "terminal diameter": {
+      "Code": "0112/2///61360_4#AAE023",
+      "ShortName.EN": "d_term",
+      "PrimaryUnit": "m"
+    },
+    "terminal pitch": {
+      "Code": "0112/2///61360_4#AAE024",
+      "ShortName.EN": "p_term",
+      "PrimaryUnit": "m"
+    },
+    "terminal length": {
+      "Code": "0112/2///61360_4#AAE072",
+      "ShortName.EN": "l_term",
+      "PrimaryUnit": "m"
+    },
+    "power dissipation": {
+      "Code": "0112/2///61360_4#AAE257",
+      "ShortName.EN": "P_dis}",
+      "PrimaryUnit": "W"
+    },
+    "shape/size code BSI": {
+      "Code": "0112/2///61360_4#AAE259",
+      "ShortName.EN": "shape/size",
+      "PrimaryUnit": null
+    },
+    "CECC specification": {
+      "Code": "0112/2///61360_4#AAE347",
+      "ShortName.EN": "CECC spec",
+      "PrimaryUnit": null
+    },
+    "current rms": {
+      "Code": "0112/2///61360_4#AAE540",
+      "ShortName.EN": "I_rms",
+      "PrimaryUnit": "A"
+    },
+    "lacquered length": {
+      "Code": "0112/2///61360_4#AAE633",
+      "ShortName.EN": "l_lacq",
+      "PrimaryUnit": "m"
+    },
+    "terminal material": {
+      "Code": "0112/2///61360_4#AAE634",
+      "ShortName.EN": "terminal mat",
+      "PrimaryUnit": null
+    },
+    "temperature type": {
+      "Code": "0112/2///61360_4#AAE683",
+      "ShortName.EN": "@T type",
+      "PrimaryUnit": null
+    },
+    "temperature": {
+      "Code": "0112/2///61360_4#AAE685",
+      "ShortName.EN": "@T",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "quality approval authority": {
+      "Code": "0112/2///61360_4#AAE687",
+      "ShortName.EN": "QA authority",
+      "PrimaryUnit": null
+    },
+    "thermal resistance": {
+      "Code": "0112/2///61360_4#AAE688",
+      "ShortName.EN": "R_th",
+      "PrimaryUnit": "K/W"
+    },
+    "inside diameter": {
+      "Code": "0112/2///61360_4#AAE753",
+      "ShortName.EN": "d_in",
+      "PrimaryUnit": "m"
+    },
+    "storage temperature": {
+      "Code": "0112/2///61360_4#AAE841",
+      "ShortName.EN": "T_stg",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "sensor input quantity": {
+      "Code": "0112/2///61360_4#AAE892",
+      "ShortName.EN": "input quantity",
+      "PrimaryUnit": null
+    },
+    "sensor working principle": {
+      "Code": "0112/2///61360_4#AAE893",
+      "ShortName.EN": "work principle",
+      "PrimaryUnit": null
+    },
+    "dissipation derating factor": {
+      "Code": "0112/2///61360_4#AAE905",
+      "ShortName.EN": "P_der",
+      "PrimaryUnit": "W/K"
+    },
+    "stress temperature min": {
+      "Code": "0112/2///61360_4#AAF276",
+      "ShortName.EN": "T_stress(min)",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "stress temperature max": {
+      "Code": "0112/2///61360_4#AAF277",
+      "ShortName.EN": "T_stress(max)",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "stress ambient temperature": {
+      "Code": "0112/2///61360_4#AAF278",
+      "ShortName.EN": "T_stesss(amb)",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "stress relative humidity": {
+      "Code": "0112/2///61360_4#AAF279",
+      "ShortName.EN": "RH_stress",
+      "PrimaryUnit": "%"
+    },
+    "hole pitch": {
+      "Code": "0112/2///61360_4#AAF316",
+      "ShortName.EN": "p_hole",
+      "PrimaryUnit": "m"
+    },
+    "flange length": {
+      "Code": "0112/2///61360_4#AAF317",
+      "ShortName.EN": "l_flange",
+      "PrimaryUnit": "m"
+    },
+    "flange breadth": {
+      "Code": "0112/2///61360_4#AAF318",
+      "ShortName.EN": "b_flange",
+      "PrimaryUnit": "m"
+    },
+    "flange height": {
+      "Code": "0112/2///61360_4#AAF319",
+      "ShortName.EN": "h_flg",
+      "PrimaryUnit": "m"
+    },
+    "body diameter": {
+      "Code": "0112/2///61360_4#AAF320",
+      "ShortName.EN": "d_body",
+      "PrimaryUnit": "m"
+    },
+    "pitch (x-axis)": {
+      "Code": "0112/2///61360_4#AAF321",
+      "ShortName.EN": "p_x",
+      "PrimaryUnit": "m"
+    },
+    "pitch (y-axis)": {
+      "Code": "0112/2///61360_4#AAF322",
+      "ShortName.EN": "p_y",
+      "PrimaryUnit": "m"
+    },
+    "pitch circle diameter": {
+      "Code": "0112/2///61360_4#AAF337",
+      "ShortName.EN": "d_p",
+      "PrimaryUnit": "m"
+    },
+    "terminal breadth": {
+      "Code": "0112/2///61360_4#AAF338",
+      "ShortName.EN": "b_term",
+      "PrimaryUnit": "m"
+    },
+    "terminal thickness": {
+      "Code": "0112/2///61360_4#AAF339",
+      "ShortName.EN": "t_term",
+      "PrimaryUnit": "m"
+    },
+    "offset (y-axis)": {
+      "Code": "0112/2///61360_4#AAF340",
+      "ShortName.EN": "s_y",
+      "PrimaryUnit": "m"
+    },
+    "offset (x-axis)": {
+      "Code": "0112/2///61360_4#AAF341",
+      "ShortName.EN": "s_x",
+      "PrimaryUnit": "m"
+    },
+    "flange diameter": {
+      "Code": "0112/2///61360_4#AAF342",
+      "ShortName.EN": "d_flg",
+      "PrimaryUnit": "m"
+    },
+    "mounting method": {
+      "Code": "0112/2///61360_4#AAF343",
+      "ShortName.EN": "mounting-method",
+      "PrimaryUnit": null
+    },
+    "body shape": {
+      "Code": "0112/2///61360_4#AAF344",
+      "ShortName.EN": "body-shape",
+      "PrimaryUnit": null
+    },
+    "terminal exit position SMD": {
+      "Code": "0112/2///61360_4#AAF345",
+      "ShortName.EN": "term-exit-posit",
+      "PrimaryUnit": null
+    },
+    "terminal exit position non-SMD": {
+      "Code": "0112/2///61360_4#AAF346",
+      "ShortName.EN": "term-exit-SMD",
+      "PrimaryUnit": null
+    },
+    "terminal shape non-SMD": {
+      "Code": "0112/2///61360_4#AAF347",
+      "ShortName.EN": "term-shape",
+      "PrimaryUnit": null
+    },
+    "terminal shape SMD": {
+      "Code": "0112/2///61360_4#AAF348",
+      "ShortName.EN": "term-shape-SMD",
+      "PrimaryUnit": null
+    },
+    "number of holes": {
+      "Code": "0112/2///61360_4#AAF351",
+      "ShortName.EN": "N_hole",
+      "PrimaryUnit": "1"
+    },
+    "basic aspect": {
+      "Code": "0112/2///61360_4#AAF352",
+      "ShortName.EN": "basic aspect",
+      "PrimaryUnit": null
+    },
+    "size code EIA": {
+      "Code": "0112/2///61360_4#AAF353",
+      "ShortName.EN": "size-EIA",
+      "PrimaryUnit": null
+    },
+    "reference view": {
+      "Code": "0112/2///61360_4#AAF356",
+      "ShortName.EN": "ref view",
+      "PrimaryUnit": null
+    },
+    "terminal identifier": {
+      "Code": "0112/2///61360_4#AAF357",
+      "ShortName.EN": "terminal id",
+      "PrimaryUnit": null
+    },
+    "swapability indicator": {
+      "Code": "0112/2///61360_4#AAF358",
+      "ShortName.EN": "swap ind",
+      "PrimaryUnit": null
+    },
+    "permutability indicator": {
+      "Code": "0112/2///61360_4#AAF359",
+      "ShortName.EN": "perm ind",
+      "PrimaryUnit": null
+    },
+    "centre of gravity (x-axis)": {
+      "Code": "0112/2///61360_4#AAF362",
+      "ShortName.EN": "C_grav(x-axis)",
+      "PrimaryUnit": "m"
+    },
+    "centre of gravity (y-axis)": {
+      "Code": "0112/2///61360_4#AAF363",
+      "ShortName.EN": "C_grav(y-axis)",
+      "PrimaryUnit": "m"
+    },
+    "test voltage coefficient": {
+      "Code": "0112/2///61360_4#AAF369",
+      "ShortName.EN": "k_V(test)",
+      "PrimaryUnit": "1"
+    },
+    "adjuster placement": {
+      "Code": "0112/2///61360_4#AAF371",
+      "ShortName.EN": "adjuster-place",
+      "PrimaryUnit": null
+    },
+    "preformed lead": {
+      "Code": "0112/2///61360_4#AAF372",
+      "ShortName.EN": "preformed lead",
+      "PrimaryUnit": null
+    },
+    "number of studs": {
+      "Code": "0112/2///61360_4#AAF373",
+      "ShortName.EN": "N_std",
+      "PrimaryUnit": "1"
+    },
+    "number of pitches (x-axis)": {
+      "Code": "0112/2///61360_4#AAF374",
+      "ShortName.EN": "N_p(x)",
+      "PrimaryUnit": "1"
+    },
+    "number of pitches (y-axis)": {
+      "Code": "0112/2///61360_4#AAF375",
+      "ShortName.EN": "N_p(y)",
+      "PrimaryUnit": "1"
+    },
+    "terminal cross-section shape": {
+      "Code": "0112/2///61360_4#AAF376",
+      "ShortName.EN": "term-cross-shp",
+      "PrimaryUnit": null
+    },
+    "case size": {
+      "Code": "0112/2///61360_4#AAF388",
+      "ShortName.EN": "case size",
+      "PrimaryUnit": null
+    },
+    "connect-node code": {
+      "Code": "0112/2///61360_4#AAF391",
+      "ShortName.EN": "conn-node code",
+      "PrimaryUnit": null
+    },
+    "project view code": {
+      "Code": "0112/2///61360_4#AAF392",
+      "ShortName.EN": "proj-view code",
+      "PrimaryUnit": null
+    },
+    "x-coordinate of the reference point": {
+      "Code": "0112/2///61360_4#AAF393",
+      "ShortName.EN": "x-coor ref pt",
+      "PrimaryUnit": "m"
+    },
+    "y-coordinate of the reference point": {
+      "Code": "0112/2///61360_4#AAF394",
+      "ShortName.EN": "y-coor ref pt",
+      "PrimaryUnit": "m"
+    },
+    "z-coordinate of the reference point": {
+      "Code": "0112/2///61360_4#AAF395",
+      "ShortName.EN": "z-coor ref pt",
+      "PrimaryUnit": "m"
+    },
+    "scale": {
+      "Code": "0112/2///61360_4#AAF396",
+      "ShortName.EN": "scale",
+      "PrimaryUnit": "1"
+    },
+    "angle axis to x-axis": {
+      "Code": "0112/2///61360_4#AAF411",
+      "ShortName.EN": "$a_x",
+      "PrimaryUnit": "\u00b0"
+    },
+    "angle axis to y-axis": {
+      "Code": "0112/2///61360_4#AAF412",
+      "ShortName.EN": "$a_y",
+      "PrimaryUnit": "\u00b0"
+    },
+    "angle axis to z-axis": {
+      "Code": "0112/2///61360_4#AAF413",
+      "ShortName.EN": "$a_z",
+      "PrimaryUnit": "\u00b0"
+    },
+    "y-coordinate of centre": {
+      "Code": "0112/2///61360_4#AAF419",
+      "ShortName.EN": "y-c_sphere",
+      "PrimaryUnit": "m"
+    },
+    "z-coordinate of centre": {
+      "Code": "0112/2///61360_4#AAF420",
+      "ShortName.EN": "z-c_sphere",
+      "PrimaryUnit": "m"
+    },
+    "edge-length": {
+      "Code": "0112/2///61360_4#AAF429",
+      "ShortName.EN": "l_edge",
+      "PrimaryUnit": "m"
+    },
+    "internal radius": {
+      "Code": "0112/2///61360_4#AAF430",
+      "ShortName.EN": "r_inner",
+      "PrimaryUnit": "m"
+    },
+    "external radius": {
+      "Code": "0112/2///61360_4#AAF431",
+      "ShortName.EN": "r_outer",
+      "PrimaryUnit": "m"
+    },
+    "terminal connection type": {
+      "Code": "0112/2///61360_4#AAF435",
+      "ShortName.EN": "term-conn-type",
+      "PrimaryUnit": null
+    },
+    "column type": {
+      "Code": "0112/2///61360_4#AAF437",
+      "ShortName.EN": "n_column",
+      "PrimaryUnit": "1"
+    },
+    "z-axis displacement of centre of gravity": {
+      "Code": "0112/2///61360_4#AAF472",
+      "ShortName.EN": "C_grav(z-axis)",
+      "PrimaryUnit": "m"
+    },
+    "generic type number": {
+      "Code": "0112/2///61360_4#AAH548",
+      "ShortName.EN": "generic type",
+      "PrimaryUnit": null
+    },
+    "ordering code": {
+      "Code": "0112/2///61360_4#AAH549",
+      "ShortName.EN": "order code",
+      "PrimaryUnit": null
+    }
+  },
+  "voltage_sensor": {
+    "Name": "Voltage",
+    "Type": "uda:float",
+    "Encoding": "ascii",
+    "access": "rw",
+    "unit": "Volts [v]",
+    "description": "The voltage of a system"
+  },
+  "velocity_sensor": {
+    "Name": "Speed",
+    "Type": "uda:int32",
+    "Encoding": "ascii",
+    "access": "rw",
+    "unit": "meters per second [m/s]",
+    "description": "The speed value"
+  },
+  "power_sensor": {
+    "Name": "Power",
+    "Type": "uda:float",
+    "Encoding": "ascii",
+    "access": "rw",
+    "unit": "Watts [W]",
+    "description": "The power"
+  },
+  "current_sensor": {
+    "Name": "Current",
+    "Type": "uda:float",
+    "Encoding": "ascii",
+    "access": "ro",
+    "unit": "Ampere [A]",
+    "description": "Current value"
+  },
+  "temperature_sensor": {
+    "reference resistance": {
+      "Code": "0112/2///61360_4#AAE874",
+      "ShortName.EN": "R_Tref",
+      "PrimaryUnit": "\u03a9"
+    },
+    "resistance ratio R_Tamb}/R_Tref}": {
+      "Code": "0112/2///61360_4#AAE875",
+      "ShortName.EN": "R_Tamb/R_Tref",
+      "PrimaryUnit": "1"
+    },
+    "temperature coefficient": {
+      "Code": "0112/2///61360_4#AAE876",
+      "ShortName.EN": "TC",
+      "PrimaryUnit": "%/K"
+    },
+    "main class of component": {
+      "Code": "0112/2///61360_4#AAE001",
+      "ShortName.EN": "main class",
+      "PrimaryUnit": null
+    },
+    "category EE component": {
+      "Code": "0112/2///61360_4#AAE002",
+      "ShortName.EN": "category EE",
+      "PrimaryUnit": null
+    },
+    "terminal shape": {
+      "Code": "0112/2///61360_4#AAE007",
+      "ShortName.EN": "terminal shape",
+      "PrimaryUnit": null
+    },
+    "terminal placement": {
+      "Code": "0112/2///61360_4#AAE008",
+      "ShortName.EN": "terminal place",
+      "PrimaryUnit": null
+    },
+    "outside diameter": {
+      "Code": "0112/2///61360_4#AAE022",
+      "ShortName.EN": "d_out",
+      "PrimaryUnit": "m"
+    },
+    "terminal diameter": {
+      "Code": "0112/2///61360_4#AAE023",
+      "ShortName.EN": "d_term",
+      "PrimaryUnit": "m"
+    },
+    "terminal pitch": {
+      "Code": "0112/2///61360_4#AAE024",
+      "ShortName.EN": "p_term",
+      "PrimaryUnit": "m"
+    },
+    "terminal length": {
+      "Code": "0112/2///61360_4#AAE072",
+      "ShortName.EN": "l_term",
+      "PrimaryUnit": "m"
+    },
+    "power dissipation": {
+      "Code": "0112/2///61360_4#AAE257",
+      "ShortName.EN": "P_dis}",
+      "PrimaryUnit": "W"
+    },
+    "shape/size code BSI": {
+      "Code": "0112/2///61360_4#AAE259",
+      "ShortName.EN": "shape/size",
+      "PrimaryUnit": null
+    },
+    "CECC specification": {
+      "Code": "0112/2///61360_4#AAE347",
+      "ShortName.EN": "CECC spec",
+      "PrimaryUnit": null
+    },
+    "current rms": {
+      "Code": "0112/2///61360_4#AAE540",
+      "ShortName.EN": "I_rms",
+      "PrimaryUnit": "A"
+    },
+    "lacquered length": {
+      "Code": "0112/2///61360_4#AAE633",
+      "ShortName.EN": "l_lacq",
+      "PrimaryUnit": "m"
+    },
+    "terminal material": {
+      "Code": "0112/2///61360_4#AAE634",
+      "ShortName.EN": "terminal mat",
+      "PrimaryUnit": null
+    },
+    "temperature type": {
+      "Code": "0112/2///61360_4#AAE683",
+      "ShortName.EN": "@T type",
+      "PrimaryUnit": null
+    },
+    "temperature": {
+      "Code": "0112/2///61360_4#AAE685",
+      "ShortName.EN": "@T",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "quality approval authority": {
+      "Code": "0112/2///61360_4#AAE687",
+      "ShortName.EN": "QA authority",
+      "PrimaryUnit": null
+    },
+    "thermal resistance": {
+      "Code": "0112/2///61360_4#AAE688",
+      "ShortName.EN": "R_th",
+      "PrimaryUnit": "K/W"
+    },
+    "inside diameter": {
+      "Code": "0112/2///61360_4#AAE753",
+      "ShortName.EN": "d_in",
+      "PrimaryUnit": "m"
+    },
+    "storage temperature": {
+      "Code": "0112/2///61360_4#AAE841",
+      "ShortName.EN": "T_stg",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "sensor input quantity": {
+      "Code": "0112/2///61360_4#AAE892",
+      "ShortName.EN": "input quantity",
+      "PrimaryUnit": null
+    },
+    "sensor working principle": {
+      "Code": "0112/2///61360_4#AAE893",
+      "ShortName.EN": "work principle",
+      "PrimaryUnit": null
+    },
+    "dissipation derating factor": {
+      "Code": "0112/2///61360_4#AAE905",
+      "ShortName.EN": "P_der",
+      "PrimaryUnit": "W/K"
+    },
+    "stress temperature min": {
+      "Code": "0112/2///61360_4#AAF276",
+      "ShortName.EN": "T_stress(min)",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "stress temperature max": {
+      "Code": "0112/2///61360_4#AAF277",
+      "ShortName.EN": "T_stress(max)",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "stress ambient temperature": {
+      "Code": "0112/2///61360_4#AAF278",
+      "ShortName.EN": "T_stesss(amb)",
+      "PrimaryUnit": "\u00b0C"
+    },
+    "stress relative humidity": {
+      "Code": "0112/2///61360_4#AAF279",
+      "ShortName.EN": "RH_stress",
+      "PrimaryUnit": "%"
+    },
+    "hole pitch": {
+      "Code": "0112/2///61360_4#AAF316",
+      "ShortName.EN": "p_hole",
+      "PrimaryUnit": "m"
+    },
+    "flange length": {
+      "Code": "0112/2///61360_4#AAF317",
+      "ShortName.EN": "l_flange",
+      "PrimaryUnit": "m"
+    },
+    "flange breadth": {
+      "Code": "0112/2///61360_4#AAF318",
+      "ShortName.EN": "b_flange",
+      "PrimaryUnit": "m"
+    },
+    "flange height": {
+      "Code": "0112/2///61360_4#AAF319",
+      "ShortName.EN": "h_flg",
+      "PrimaryUnit": "m"
+    },
+    "body diameter": {
+      "Code": "0112/2///61360_4#AAF320",
+      "ShortName.EN": "d_body",
+      "PrimaryUnit": "m"
+    },
+    "pitch (x-axis)": {
+      "Code": "0112/2///61360_4#AAF321",
+      "ShortName.EN": "p_x",
+      "PrimaryUnit": "m"
+    },
+    "pitch (y-axis)": {
+      "Code": "0112/2///61360_4#AAF322",
+      "ShortName.EN": "p_y",
+      "PrimaryUnit": "m"
+    },
+    "pitch circle diameter": {
+      "Code": "0112/2///61360_4#AAF337",
+      "ShortName.EN": "d_p",
+      "PrimaryUnit": "m"
+    },
+    "terminal breadth": {
+      "Code": "0112/2///61360_4#AAF338",
+      "ShortName.EN": "b_term",
+      "PrimaryUnit": "m"
+    },
+    "terminal thickness": {
+      "Code": "0112/2///61360_4#AAF339",
+      "ShortName.EN": "t_term",
+      "PrimaryUnit": "m"
+    },
+    "offset (y-axis)": {
+      "Code": "0112/2///61360_4#AAF340",
+      "ShortName.EN": "s_y",
+      "PrimaryUnit": "m"
+    },
+    "offset (x-axis)": {
+      "Code": "0112/2///61360_4#AAF341",
+      "ShortName.EN": "s_x",
+      "PrimaryUnit": "m"
+    },
+    "flange diameter": {
+      "Code": "0112/2///61360_4#AAF342",
+      "ShortName.EN": "d_flg",
+      "PrimaryUnit": "m"
+    },
+    "mounting method": {
+      "Code": "0112/2///61360_4#AAF343",
+      "ShortName.EN": "mounting-method",
+      "PrimaryUnit": null
+    },
+    "body shape": {
+      "Code": "0112/2///61360_4#AAF344",
+      "ShortName.EN": "body-shape",
+      "PrimaryUnit": null
+    },
+    "terminal exit position SMD": {
+      "Code": "0112/2///61360_4#AAF345",
+      "ShortName.EN": "term-exit-posit",
+      "PrimaryUnit": null
+    },
+    "terminal exit position non-SMD": {
+      "Code": "0112/2///61360_4#AAF346",
+      "ShortName.EN": "term-exit-SMD",
+      "PrimaryUnit": null
+    },
+    "terminal shape non-SMD": {
+      "Code": "0112/2///61360_4#AAF347",
+      "ShortName.EN": "term-shape",
+      "PrimaryUnit": null
+    },
+    "terminal shape SMD": {
+      "Code": "0112/2///61360_4#AAF348",
+      "ShortName.EN": "term-shape-SMD",
+      "PrimaryUnit": null
+    },
+    "number of holes": {
+      "Code": "0112/2///61360_4#AAF351",
+      "ShortName.EN": "N_hole",
+      "PrimaryUnit": "1"
+    },
+    "basic aspect": {
+      "Code": "0112/2///61360_4#AAF352",
+      "ShortName.EN": "basic aspect",
+      "PrimaryUnit": null
+    },
+    "size code EIA": {
+      "Code": "0112/2///61360_4#AAF353",
+      "ShortName.EN": "size-EIA",
+      "PrimaryUnit": null
+    },
+    "reference view": {
+      "Code": "0112/2///61360_4#AAF356",
+      "ShortName.EN": "ref view",
+      "PrimaryUnit": null
+    },
+    "terminal identifier": {
+      "Code": "0112/2///61360_4#AAF357",
+      "ShortName.EN": "terminal id",
+      "PrimaryUnit": null
+    },
+    "swapability indicator": {
+      "Code": "0112/2///61360_4#AAF358",
+      "ShortName.EN": "swap ind",
+      "PrimaryUnit": null
+    },
+    "permutability indicator": {
+      "Code": "0112/2///61360_4#AAF359",
+      "ShortName.EN": "perm ind",
+      "PrimaryUnit": null
+    },
+    "centre of gravity (x-axis)": {
+      "Code": "0112/2///61360_4#AAF362",
+      "ShortName.EN": "C_grav(x-axis)",
+      "PrimaryUnit": "m"
+    },
+    "centre of gravity (y-axis)": {
+      "Code": "0112/2///61360_4#AAF363",
+      "ShortName.EN": "C_grav(y-axis)",
+      "PrimaryUnit": "m"
+    },
+    "test voltage coefficient": {
+      "Code": "0112/2///61360_4#AAF369",
+      "ShortName.EN": "k_V(test)",
+      "PrimaryUnit": "1"
+    },
+    "adjuster placement": {
+      "Code": "0112/2///61360_4#AAF371",
+      "ShortName.EN": "adjuster-place",
+      "PrimaryUnit": null
+    },
+    "preformed lead": {
+      "Code": "0112/2///61360_4#AAF372",
+      "ShortName.EN": "preformed lead",
+      "PrimaryUnit": null
+    },
+    "number of studs": {
+      "Code": "0112/2///61360_4#AAF373",
+      "ShortName.EN": "N_std",
+      "PrimaryUnit": "1"
+    },
+    "number of pitches (x-axis)": {
+      "Code": "0112/2///61360_4#AAF374",
+      "ShortName.EN": "N_p(x)",
+      "PrimaryUnit": "1"
+    },
+    "number of pitches (y-axis)": {
+      "Code": "0112/2///61360_4#AAF375",
+      "ShortName.EN": "N_p(y)",
+      "PrimaryUnit": "1"
+    },
+    "terminal cross-section shape": {
+      "Code": "0112/2///61360_4#AAF376",
+      "ShortName.EN": "term-cross-shp",
+      "PrimaryUnit": null
+    },
+    "case size": {
+      "Code": "0112/2///61360_4#AAF388",
+      "ShortName.EN": "case size",
+      "PrimaryUnit": null
+    },
+    "connect-node code": {
+      "Code": "0112/2///61360_4#AAF391",
+      "ShortName.EN": "conn-node code",
+      "PrimaryUnit": null
+    },
+    "project view code": {
+      "Code": "0112/2///61360_4#AAF392",
+      "ShortName.EN": "proj-view code",
+      "PrimaryUnit": null
+    },
+    "x-coordinate of the reference point": {
+      "Code": "0112/2///61360_4#AAF393",
+      "ShortName.EN": "x-coor ref pt",
+      "PrimaryUnit": "m"
+    },
+    "y-coordinate of the reference point": {
+      "Code": "0112/2///61360_4#AAF394",
+      "ShortName.EN": "y-coor ref pt",
+      "PrimaryUnit": "m"
+    },
+    "z-coordinate of the reference point": {
+      "Code": "0112/2///61360_4#AAF395",
+      "ShortName.EN": "z-coor ref pt",
+      "PrimaryUnit": "m"
+    },
+    "scale": {
+      "Code": "0112/2///61360_4#AAF396",
+      "ShortName.EN": "scale",
+      "PrimaryUnit": "1"
+    },
+    "angle axis to x-axis": {
+      "Code": "0112/2///61360_4#AAF411",
+      "ShortName.EN": "$a_x",
+      "PrimaryUnit": "\u00b0"
+    },
+    "angle axis to y-axis": {
+      "Code": "0112/2///61360_4#AAF412",
+      "ShortName.EN": "$a_y",
+      "PrimaryUnit": "\u00b0"
+    },
+    "angle axis to z-axis": {
+      "Code": "0112/2///61360_4#AAF413",
+      "ShortName.EN": "$a_z",
+      "PrimaryUnit": "\u00b0"
+    },
+    "y-coordinate of centre": {
+      "Code": "0112/2///61360_4#AAF419",
+      "ShortName.EN": "y-c_sphere",
+      "PrimaryUnit": "m"
+    },
+    "z-coordinate of centre": {
+      "Code": "0112/2///61360_4#AAF420",
+      "ShortName.EN": "z-c_sphere",
+      "PrimaryUnit": "m"
+    },
+    "edge-length": {
+      "Code": "0112/2///61360_4#AAF429",
+      "ShortName.EN": "l_edge",
+      "PrimaryUnit": "m"
+    },
+    "internal radius": {
+      "Code": "0112/2///61360_4#AAF430",
+      "ShortName.EN": "r_inner",
+      "PrimaryUnit": "m"
+    },
+    "external radius": {
+      "Code": "0112/2///61360_4#AAF431",
+      "ShortName.EN": "r_outer",
+      "PrimaryUnit": "m"
+    },
+    "terminal connection type": {
+      "Code": "0112/2///61360_4#AAF435",
+      "ShortName.EN": "term-conn-type",
+      "PrimaryUnit": null
+    },
+    "column type": {
+      "Code": "0112/2///61360_4#AAF437",
+      "ShortName.EN": "n_column",
+      "PrimaryUnit": "1"
+    },
+    "z-axis displacement of centre of gravity": {
+      "Code": "0112/2///61360_4#AAF472",
+      "ShortName.EN": "C_grav(z-axis)",
+      "PrimaryUnit": "m"
+    },
+    "generic type number": {
+      "Code": "0112/2///61360_4#AAH548",
+      "ShortName.EN": "generic type",
+      "PrimaryUnit": null
+    },
+    "ordering code": {
+      "Code": "0112/2///61360_4#AAH549",
+      "ShortName.EN": "order code",
+      "PrimaryUnit": null
+    }
+  },
+  "acceleration_sensor": {
+    "Name": "Acceleration",
+    "Type": "uda:float",
+    "Encoding": "ascii",
+    "access": "rw",
+    "unit": "[m/s²]",
+    "description": "The acceleration"
+  },
+  "gyroscope": "No information model defined",
+  "volume_flow_sensor": "No information model defined"
+}   

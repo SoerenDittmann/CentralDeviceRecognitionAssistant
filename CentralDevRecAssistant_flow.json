@@ -1,0 +1,766 @@
+[
+    {
+        "id": "507f0b714cfb2e1d",
+        "type": "tab",
+        "label": "ZentraleGeräteidentifikation_2DB",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "29cdfbfa29045f52",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "HowTo",
+        "info": "This flow contains the experimental evaluation of the central device recognition assistant from:\nSemantische Assistenzen für komplexe Digitale Zwillinge, Dittmann-unv\n\nFor the simple setup, please see further below.\n\nThe flow contains backend and frontend elements.\n\nThe backend element is the python file: MonitoringDatabases_InclPlot_InclPred.py\nThe file, the required helper functions in the /Classification directory and the necessary conda environment\ncan be found in the GitHub repository: https://github.com/SoerenDittmann/CentralDeviceRecognitionAssistant\n\nPlease make sure to update the path in the \"ÜberwachenDatenhaltung\" node to point to the MonitoringDatabases_InclPlot_InclPred.py\nfile. To be able to run the files, set up the anaconda environment as described in the Repo mentioned above. Open the terminal\nfrom the environement within anaconda and type: node-red. The server starts automatically with access to the conda packages.\nThe nodes in the python shell require no additional pointer to any environment.\n\nThe MonitoringDatabases_InclPlot_InclPred.py script contains some pointers to local working directories. Please update them to\nyour desired paths. These pointers include:\n\n1. details to the local PostgreSQL incl. access credentials\n2. path to local clone of the object store\n3. location to store \"knownData\" in the database and the object store\n4. path the the .pkl file containing the pretrained HIVE COTE 2.0 model\n\nAdditionally, please update the path to the clone of the information model .json in the node \"EinlesenSemantik\".\nThe information model file can also be found in the above mentioned Repo under information_models.json.\n\nThe frontend is best displayed on 70% zoom in the browser.\nThe frontend contains four sections: A bar indicating, if new data is found (or not). One section with the top three predictions\nfor newly found data, the defined information models for the respective device classes and further information (plot, storage\nlocation) of the found data.\n\nThe python script in the \"ÜberwachenDatenhaltung\" node currently can only export one prediction per run. If a file containing\nmultiple columns f.e. is thus detected, multiple messages are sent from the node. The newly detected data incl. predictions\nand further information (i.e. the hexcode for the plot) are stored in a global variable (predictionBuffer). Once the\n\"Auswahl\" button is clicked for a displayed prediction, this prediction will be deleted from the buffer and the next dataset\nis displayed in the frontend (if further data exists in the predictionBuffer).\n\nSimple or komplex run\nFor the complex run, the PostgreSQL and object storage (here a local clone from the git repository) need to be set up as \ndiscribed in the repository mentioned at the top. For a simple test run, the .pkl files in the directory /DataSimpleExample\ncan be loaded (see python script in the \"LadenDerDaten\" node). With this, only the Postgre sql needs to be set up.\n\nAt the bottom of the flow, two helper functions are provided to output the predictionBuffer and to empty\nthe predictionBuffer.\n\nWhen running the code, the MonitoringDatabases_InclPlot_InclPred.py throws in error noticable in the frontend. That is just a conversion\nwarning and does not effect the function of the flow. It takes several seconds for the script to complete.",
+        "x": 1130,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "974f321368cf0263",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "Banner: Neue Daten vorhanden",
+        "info": "",
+        "x": 1160,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "aa681d336f55591c",
+        "type": "ui_template",
+        "z": "507f0b714cfb2e1d",
+        "group": "16631427d0f83496",
+        "name": "Banner_InfoNeueDaten",
+        "order": 1,
+        "width": 30,
+        "height": 3,
+        "format": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Zentrale Geräteidentifikation</title>\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n\n    <style>\n        html,\n        body {\n            margin: 0;\n            height: 100%;\n        }\n\n        .banner_wrapper {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            height: 100%\n        }\n\n        .banner {\n            display: flex;\n            justify-content: space-between;\n            background: #6C8EBF;\n            max-width: 800px;\n            width: 100%;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n        }\n\n        .banner_content {\n            padding: 16px;\n            display: flex;\n            align-items: center;\n            flex-grow: 1;\n        }\n\n        .banner_text {\n            text-align: center;\n            font-family: 'Quicksand', sans-serif !important;\n            margin-right: 5px;\n        }\n\n        .banner_close {\n            background: none;\n            border: none;\n            cursor: pointer;\n        }\n\n        .banner_text,\n        .banner_close>span {\n            color: #ffffff;\n        }\n\n        .banner_text-container {\n            display: flex;\n            justify-content: center;\n            flex-grow: 1;\n        }\n    </style>\n</head>\n\n<!--Show the banner only when the new data flag is set to true by the algorithm-->\n<body>\n    <div class=\"banner_wrapper\" ng-if=\"msg.payload.newData\">\n        <div class=\"banner\">\n            <div class=\"banner_content\">\n                <div class=\"banner_text-container\">\n                    <div class=\"banner_text\">\n                        <strong>Neue Daten.</strong> In der virtuellen Komponente wurden neue Daten gefunden.\n                    </div>\n                </div>\n                <button class=\"banner_close\" type=\"button\">\n                    <span class=\"material-icons\">\n                        close\n                    </span>\n                </button>\n            </div>\n        </div>\n        <script>\n            document.querySelector(\".banner_close\").addEventListener(\"click\", function() {\n                this.closest(\".banner\").remove();\n            });\n        </script>\n    </div>\n\n    <div class=\"banner_wrapper\" ng-if=\"msg.payload.newData == false\">\n        <div class=\"banner\">\n            <div class=\"banner_content\">\n                <div class=\"banner_text-container\">\n                    <div class=\"banner_text\">\n                        <strong>Keine neue Daten.</strong> In der virtuellen Komponente wurden keine neuen Daten gefunden.\n                    </div>\n                </div>\n                <button class=\"banner_close\" type=\"button\">\n                        <span class=\"material-icons\">\n                            close\n                        </span>\n                    </button>\n            </div>\n        </div>\n        <script>\n            document.querySelector(\".banner_close\").addEventListener(\"click\", function() {\n                    this.closest(\".banner\").remove();\n                });\n        </script>\n    </div>\n\n</body>\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1710,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ac0209511f11d8e2",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "Auswahl der Top-3 Informationsmodelle",
+        "info": "",
+        "x": 1180,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "d16b88677609f7a1",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "Vorschlag von Semantiken",
+        "info": "",
+        "x": 1180,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "5dfb4544ed1efeda",
+        "type": "json",
+        "z": "507f0b714cfb2e1d",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": true,
+        "x": 830,
+        "y": 840,
+        "wires": [
+            [
+                "afa82983ec9e46a1"
+            ]
+        ]
+    },
+    {
+        "id": "afa82983ec9e46a1",
+        "type": "join",
+        "z": "507f0b714cfb2e1d",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1140,
+        "y": 840,
+        "wires": [
+            [
+                "e900b827c382b83c"
+            ]
+        ]
+    },
+    {
+        "id": "9a0fe23e82a1b708",
+        "type": "json",
+        "z": "507f0b714cfb2e1d",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": true,
+        "x": 1070,
+        "y": 960,
+        "wires": [
+            [
+                "afa82983ec9e46a1"
+            ]
+        ]
+    },
+    {
+        "id": "051c02df851291da",
+        "type": "file in",
+        "z": "507f0b714cfb2e1d",
+        "name": "EinlesenSemantik",
+        "filename": "C:\\Users\\USER\\...\\information_models.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 750,
+        "y": 960,
+        "wires": [
+            [
+                "326d57010c6b5a98"
+            ]
+        ]
+    },
+    {
+        "id": "326d57010c6b5a98",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "PlusTopic",
+        "func": "msg.topic = 'semantics';\nmsg.payload = msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 960,
+        "wires": [
+            [
+                "9a0fe23e82a1b708"
+            ]
+        ]
+    },
+    {
+        "id": "e900b827c382b83c",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "FilternInformationsmodelle",
+        "func": "//For the iteration below, it is crucial that the order of the predicted classes is retained\n//Thus, the iteration below follows the structure of the predicted_classes msg.\n\nvar predicted_classes = msg.payload.predictions;\npredicted_classes = JSON.parse(predicted_classes).predictions;\nvar semantics = msg.payload.semantics;\n\nvar filteredJson = {};\nvar i_pred;\nvar pred_elem;\n\nfor (i_pred in predicted_classes){\n    pred_elem = predicted_classes[i_pred];\n    filteredJson[pred_elem] = semantics[pred_elem];\n}\n\n//Create new message with the suggested semantics\nmsg.payload = filteredJson;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1400,
+        "y": 840,
+        "wires": [
+            [
+                "83ed4f6009cd6f7a",
+                "aa55216d8bfeef72"
+            ]
+        ]
+    },
+    {
+        "id": "83ed4f6009cd6f7a",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "TitelBeschreibungTop3",
+        "func": "//Code to prepare text to display for top three predictions\n//Communicate class name and class description for display in the frontend\n\nvar filteredsemantics = msg.payload;\nvar sensorkeys = Object.keys(filteredsemantics);\n\nvar sensorclass;\nvar sensor;\nvar attr;\nvar description_arr = [];\nvar i = 0;\n\n//Search for class description in the data from the semantics database (here originally a GitHub json)\nfor (sensorclass in filteredsemantics){\n    sensor = filteredsemantics[sensorclass];\n    for (attr in sensor){\n        if (attr == \"description\"){\n            description_arr[i] = sensor[attr];\n            i = i+1;\n        }\n    }\n}\n\n//Store class name and class description for display\nvar forplot = {\n    \"classes\":[{title:sensorkeys[0], details:description_arr[0]},\n        {title:sensorkeys[1], details:description_arr[1]},\n        {title:sensorkeys[2], details:description_arr[2]}]};\n\nmsg.payload = forplot;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1430,
+        "y": 960,
+        "wires": [
+            [
+                "ecd6124b1dc43bc7"
+            ]
+        ]
+    },
+    {
+        "id": "ecd6124b1dc43bc7",
+        "type": "ui_template",
+        "z": "507f0b714cfb2e1d",
+        "group": "76e9fb2cdc52aa5f",
+        "name": "Auswahl_Kacheln",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<!-- Title design based on https://experience.sap.com/fiori-design-web/article/v1-68_v1-62_v1-58_v1-56_v1-48_v1-40_select-dialog/ (last acc. 07.12.2023)-->\n<!-- Code template for parsing the payload data to the js section below: https://it.knightnet.org.uk/kb/nr-qa/dashboard-template-examples/ (last acc. 07.12.2023)-->\n\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Auswahl Informationsmodell</title>\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n\n    <style>\n\n        .tile_big_Auswahl {\n            width: 500px;\n            height: 350px;\n            border: 1px solid #ccc;\n            display: flex;\n            flex-direction: column;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n            justify-content: center;\n            align-items: center;\n        }\n\n        .tile_Auswahl {\n            width: 500px;\n            height: 240px;\n            display: flex;\n            flex-direction: column;\n        }\n\n        .prediction1_Auswahl {\n            margin-top: 15px;\n            border-top: 1px solid #ccc;\n            display: flex;\n            align-items: center;\n            height: 68px;\n            width: 500px;\n            text-align: center;\n            //position: relative;\n        }\n\n        .prediction2_Auswahl {\n            border-top: 1px solid #ccc;\n            border-bottom: 1px solid #ccc;\n            display: flex;\n            align-items: center;\n            height: 68px;\n            width: 500px;\n            text-align: center;\n            //position: relative;\n        }\n\n        .prediction3_Auswahl {\n            border-bottom: 1px solid #ccc;\n            display: flex;\n            align-items: center;\n            height: 68px;\n            width: 500px;\n            text-align: center;\n            //position: relative;\n        }\n\n        .checkbox_Auswahl {\n            width: 20px;\n            height: 20px;\n            margin-right: 10px;\n            margin-left: 15px;\n        }\n\n        .checkbox_Auswahl:hover {\n            background-color: #f2f2f2;\n        }\n\n        .icon_Auswahl {\n            width: 12%;\n            height: 75%;\n            background-color: lightblue;\n        }\n\n        .text_Auswahl {\n            width: 480px;\n            display: flex;\n            flex-direction: column;\n            padding: 5px;\n            font-family: 'Quicksand', sans-serif !important;\n            line-height: 1;\n        }\n\n        .headline_Auswahl {\n            margin-bottom: 10px;\n            font-weight: bold;\n            text-align: left;\n        }\n\n        .detail_Auswahl {\n            font-weight: normal;\n            line-height: 1.2;\n        }\n\n        .divider_Auswahl {\n            width: 100px;\n            border: 1px solid #ccc;\n        }\n\n        .prediction1_Auswahl:hover {\n            background-color: #f2f2f2;\n        }\n\n        .prediction2_Auswahl:hover {\n            background-color: #f2f2f2;\n        }\n\n        .prediction3_Auswahl:hover {\n            background-color: #f2f2f2;\n        }\n\n        .button_Auswahl {\n            margin-top: 30px;\n            margin-bottom: 10px;\n            width: 50%;\n            border: none;\n            color: white;\n            padding: 15px 32px;\n            text-align: center;\n            text-decoration: none;\n            display: inline-block;\n            margin: 4px 2px;\n            cursor: pointer;\n            font-family:'Quicksand', sans-serif !important;\n        }\n\n        .button1_Auswahl {\n            background-color: #6c8ebf;\n            align-items: center;\n            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);\n        }\n    </style>\n</head>\n\n\n<body>\n\n    <dic class=\"tile_big_Auswahl\" id=\"tile_big_Auswahl\">\n        <!--Define the header-->\n        <div class=\"headline_Auswahl\" id=\"headline_Auswahl\">Wähle eine Geräteklasse</div>\n\n        <!--Define general tile to later append options from the algorithm -->\n        <div class=\"tile_Auswahl\" id=\"tile_Auswahl\"></div>\n\n        <!--JS section for functionality of this block -->\n        <script>\n            //The following combination of the scope and scope.$watch is responsible for accessing the msg.payload\n            //within the JS section (see for this link on top). Why the $watch function is necessary see also:\n            //https://it.knightnet.org.uk/kb/nr-qa/dashboard-template-examples/ (last acc. 07.12.2023)\n            (function(scope){\n            const tile_Auswahl = document.getElementById('tile_Auswahl');\n            scope.$watch('msg', function(msg){\n                //verfiy that msg is not empty\n                if (msg && msg.payload && msg.payload.classes){\n                    const predictions = msg.payload.classes;\n                    //Clear tile before adding new content\n                    tile_Auswahl.innerHTML = \"\";\n                    //Iterate over top 3 predictions and dynamically generate sections of the tile\n                    predictions.forEach((predclasses, index) => {\n                        const predictionDiv = document.createElement('div');\n                        predictionDiv.className = `prediction${index +1}_Auswahl`;\n                        predictionDiv.id = `prediction${index +1}_Auswahl`;\n\n                        predictionDiv.innerHTML = `\n                        <div class=\"text_Auswahl\">\n                            <div class=\"detail_Auswahl\">${predclasses.title}</div>\n                            <div class=\"detail_Auswahl\">${predclasses.details}</div>\n                        </div>\n                        `;\n                        tile_Auswahl.appendChild(predictionDiv)\n                        });;\n                }\n            });        \n            }) (scope)\n        </script>\n\n        <button ng-click=\"ClickEvent()\" class=\"button_Auswahl button1_Auswahl\">Nächste Daten</button>\n        <script>\n            //Add click event to shift the prediction Buffer (i.e. remove first element)\n            (function(scope) {\n                scope.ClickEvent = function() {\n                    scope.send({payload: \"predictionseen\"});\n                };\n            })(scope);\n        </script>\n    </div>\n</body>\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1770,
+        "y": 960,
+        "wires": [
+            [
+                "1623a07ee81cd7c2"
+            ]
+        ]
+    },
+    {
+        "id": "aa55216d8bfeef72",
+        "type": "ui_template",
+        "z": "507f0b714cfb2e1d",
+        "group": "2e4dd29d804c820d",
+        "name": "VorgeschlageneSemantiken",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<!-- Following solution inspired by: https://stackoverflow.com/questions/45220592/bootstrap-carousel-arrow-positioning (acc. 07.12.2023)-->\n<!-- Below, the switch state is relevant. See: https://stackoverflow.com/questions/28145215/css-multiple-states-for-elements-with-button-triggers (acc. 07.12.2023)-->\n\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Choosing Information model</title>\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n    <script\n        src=\"https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?autoload=true&amp;skin=sunburst&amp;lang=css\"\n        defer></script>\n\n    <!-- Define css-->\n    <style>\n        .tile_big_sem {\n            width: 500px;\n            border: 1px solid #ccc;\n            display: inline-flex;\n            flex-direction: column;\n            align-items: center;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n            justify-content: top;\n            position: relative;\n        }\n\n        .tile_sem {\n            margin-left: 100px;\n            width: 450px;\n            justify-content: center;\n            text-align: center;\n            min-height: 572px;\n            //\n        }\n\n        .headline_2 {\n            text-align: center;\n            margin-top: 10px;\n            font-weight: bold;\n        }\n\n        .arrow {\n            position: absolute;\n            top: 300px;\n            cursor: pointer;\n            font-size: 24px;\n            transition: color 0.3s;\n        }\n\n        .arrow-left {\n            left: 10px;\n            font-size: 24px;\n        }\n\n        .arrow-right {\n            right: 10px;\n            font-size: 24px;\n        }\n\n        .semantikencontent {\n            display: block;\n            text-align: center;\n        }\n\n        .semantiken-content-1 {\n            display: block;\n            text-align: center;\n        }\n\n        .semantiken-content-2 {\n            display: none;\n            text-align: center;\n            width: 200px;\n        }\n\n        .semantiken-content-3 {\n            display: none;\n            text-align: center;\n        }\n\n        .detail_sem {\n            font-weight: normal;\n            text-align: center;\n        }\n\n        .text_sem {\n            width: 100%;\n            text-align: center;\n        }\n\n        .jsonstructure {\n            text-align: left;\n            line-height: 2.5;\n            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;\n            overflow-wrap: break-word;\n        }\n    </style>\n</head>\n\n\n\n<body>\n\n    <div class=\"tile_big_sem\" id=\"tile_big_sem\">\n        <!--Initialize tile content-->\n        <div class=\"headline_2\" id=\"headline_2\">Semantik der ersten Klasse</div>\n        <!--Define click events and states-->\n        <div class=\"arrow arrow-left\" onclick=\"decreasevalue()\"><i class=\"fa fa-chevron-left\"></i></div>\n        <div class=\"arrow arrow-right\" onclick=\"increasevalue()\"><i class=\"fa fa-chevron-right\"></i></div>\n        <div class=\"tile_sem\" id=\"tile_sem\">\n            <script>\n                //The following combination of the scope and scope.$watch is responsible for accessing the msg.payload\n                //within the JS section (see for this link on top). Why the $watch function is necessary see also:\n                //https://it.knightnet.org.uk/kb/nr-qa/dashboard-template-examples/ (last acc. 07.12.2023)\n                (function(scope) {\n                const tile_sem = document.getElementById('tile_sem');\n                scope.$watch('msg', function(msg){\n                    //Check that msg is not empty\n                    if (msg && msg.payload){\n                        var semantics = msg.payload;\n                        var index_0 = 1;\n                        var semanticclasses;\n                        var semanticclass_0;\n                        //Clear tile before adding new content\n                        tile_sem.innerHTML = \"\";\n                        //Iterate through predicted classes and dynamically generate sections of the tile\n                        for (semanticclasses in semantics){\n                            semanticclass_0 = semantics[semanticclasses];\n\n                            const semanticclassDiv = document.createElement('div');\n                            semanticclassDiv.className = `semantiken-content-${index_0}`;\n                            semanticclassDiv.id = `semantiken-content-${index_0}`;\n                            semanticclass_0=JSON.stringify(semanticclass_0, null, 4);\n\n                            //For details on the usage of the pre tag to maintain the json structure see\n                            //https://tutorial.eyehunts.com/html/display-formatted-json-in-html-example-code/ (acc. 07.12.2023)\n                            var pre = document.createElement('pre');\n                            pre.className = 'jsonstructure';\n                            pre.textContent = semanticclass_0;\n\n                            semanticclassDiv.appendChild(pre);\n\n                            tile_sem.appendChild(semanticclassDiv);\n                            index_0 = index_0+1;\n                        }\n                    }\n                });\n                }) (scope)\n            </script>\n        </div>\n    </div>\n\n    <script>\n        var index_counter = 0;\n        const stateoptions = ['semantiken-content-1', 'semantiken-content-2', 'semantiken-content-3'];\n\n        function showcontent(state){\n            var headline_2 = document.getElementById('headline_2');\n            var semanticsContent1 = document.getElementById('semantiken-content-1');\n            var semanticsContent2 = document.getElementById('semantiken-content-2');\n            var semanticsContent3 = document.getElementById('semantiken-content-3');\n\n\n            if (state === 'semantiken-content-1') {\n                headline_2.innerText = 'Semantiken der ersten Klasse';\n                semanticsContent1.style.display = 'block';\n                semanticsContent2.style.display = 'none';\n                semanticsContent3.style.display = 'none';\n            }\n            else if (state === 'semantiken-content-2') {\n                headline_2.innerText = 'Semantiken der zweiten Klasse';\n                semanticsContent1.style.display = 'none';\n                semanticsContent2.style.display = 'block';\n                semanticsContent3.style.display = 'none';\n            }\n            else if (state === 'semantiken-content-3') {\n                headline_2.innerText = 'Semantiken der dritten Klasse';\n                semanticsContent1.style.display = 'none';\n                semanticsContent2.style.display = 'none';\n                semanticsContent3.style.display = 'block';\n            }\n            else{\n                headline_2.innerText = 'Semantiken der ersten Klasse';\n                semanticsContent1.style.display = 'block';\n                semanticsContent2.style.display = 'none';\n                semanticsContent3.style.display = 'none';\n            }\n        }\n\n        function increasevalue() {\n            index_counter = (index_counter + 1) % 3;\n            state = stateoptions[index_counter];\n            showcontent(state);\n        }\n\n        function decreasevalue(){\n            index_counter = (index_counter - 1 + stateoptions.length) % stateoptions.length;\n            state = stateoptions[index_counter];\n            showcontent(state);\n        }\n    \n    </script>\n</body>\n\n</html>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1730,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3461db47604638e6",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "PlusTopic",
+        "func": "msg.topic = 'databaseinfo';\nvar databaseinfo = msg.payload;\n\nmsg.payload = {\n    databasename: databaseinfo.database,\n    databaseschema: databaseinfo.schema,\n    tablename: databaseinfo.table\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 640,
+        "wires": [
+            [
+                "963a33c609b03eec"
+            ]
+        ]
+    },
+    {
+        "id": "d431cf48b6f5fa8f",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "PlotDerGefundenenDaten_Speicherort",
+        "info": "",
+        "x": 1150,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "b7cd4ee8ae646e02",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "PlusTopic",
+        "func": "msg.topic = 'hexcode';\nmsg.payload = msg.payload.image;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 580,
+        "wires": [
+            [
+                "963a33c609b03eec"
+            ]
+        ]
+    },
+    {
+        "id": "963a33c609b03eec",
+        "type": "join",
+        "z": "507f0b714cfb2e1d",
+        "name": "join",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "",
+        "count": "2",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1320,
+        "y": 580,
+        "wires": [
+            [
+                "417d0b07aa2472eb"
+            ]
+        ]
+    },
+    {
+        "id": "417d0b07aa2472eb",
+        "type": "ui_template",
+        "z": "507f0b714cfb2e1d",
+        "group": "a1a90f66581b7e7c",
+        "name": "InformationenZuDetektiertenDaten",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "format": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Choosing Information model</title>\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css\">\n\n    <!--Define css-->\n    <style>\n        .tile_big_Informationen {\n            width: 500px;\n            height: 603px;\n            border: 1px solid #ccc;\n            display: flex;\n            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n            position: relative;\n            align-items: center;\n            flex-direction: column;\n        }\n\n        .headline_Informationen {\n            text-align: center;\n            margin-top: 10px;\n            font-weight: bold;\n            margin-bottom: 10px;\n        }\n\n        .tile_graph {\n            margin-top: 8px;\n            width: 460px;\n            height: 350px;\n            border: 1px solid #ccc;\n            flex-direction: column;\n            justify-content: center;\n            position: relative;\n            item-align: center;\n        }\n\n        .tile_graphInfo {\n            width: 460px;\n            height: 150px;\n            border: 1px solid #ccc;\n            justify-content: center;\n            item-align: center;\n            position: absolute;\n            bottom: 25px;\n        }\n\n        .informationen-content {\n            display: block;\n            text-align: center;\n            margin-top: 10px;\n            line-height: 1.8;\n            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;\n            margin-left: 5px;\n        }\n\n        .informationen-content-details {\n            display: block;\n            text-align: left;\n        }\n\n        .graph-content {\n            display: block;\n            text-align: left;\n        }\n\n        .graph-content-details {\n            display: block;\n            text-align: center;\n        }\n\n        .informationen-content-header {\n            display: block;\n            text-align: center;\n            margin-top: 10px;\n            font-weight: bold;\n        }\n\n        .graph-content-header {\n            display: block;\n            text-align: center;\n            margin-top: 10px;\n            font-weight: bold;\n        }\n\n        img {\n            max-width: 80%;\n            max-height: 80%;\n            margin-top: 20px;\n        }\n    </style>\n</head>\n\n<!-- html section -->\n<body>\n\n    <div class=\"tile_big_Informationen\" id=\"tile_big_Informationen\">\n\n        <div class=\"headline_Informationen\" id=\"headline_Informationen\">Informationen zu den gefundenen Daten</div>\n        <div class=\"tile_graph\" id=\"tile_graph\">\n            <div class=\"graph-content-header\" id=\"graph-content-header\">\n                <p> Plot der gefundenen Zeitreihe </p>\n            </div>\n\n            <div class=\"graph-content\" id=\"graph-content\">\n                <script>\n                (function(scope) {\n                    const content_graph = document.getElementById('graph-content');\n                    scope.$watch('msg', function(msg) {\n                    //Check msg is not empty\n                    if (msg && msg.payload) {\n                        var show_graph = msg.payload.hexcode;\n                        //Clear the tile before adding new content\n                        content_graph.innerHTML = \"\";\n                        //display plot of newly found data\n\n                        const newData_graph = document.createElement('div');\n                        newData_graph.className = `graph-content-details`;\n                        newData_graph.id = `graph-content-details`;\n\n                        newData_graph.innerHTML = show_graph;\n\n                        content_graph.appendChild(newData_graph);\n                    }\n                    });\n                }) (scope)\n                </script>\n            </div>\n        </div>\n\n        <div class=\"tile_graphInfo\" id=\"tile_graphInfo\">\n            <div class=\"informationen-content-header\" id=\"informationen-content-header\">\n                <p> Informationen zum Speicherort </p>\n            </div>\n            <div class=\"informationen-content\" id=\"informationen-content\">\n                <script>\n                (function(scope) {\n                    const content = document.getElementById('informationen-content');\n                    scope.$watch('msg', function(msg) {\n                    //Check that msg is not empty\n                    if (msg && msg.payload) {\n                        var show_databaseinfo = msg.payload.databaseinfo;\n                        //Clear tile before adding new content\n                        content.innerHTML = \"\";\n                        //show info of newly found data in database\n\n                        const newData = document.createElement('div');\n                        newData.className = `informationen-content-details`;\n                        newData.id = `informationen-content-details`;\n\n                        newData.innerHTML = `\n                        <div class=\"informationen-content-details\">\n                            <div class=\"informationen-content-details\"> Datenbank: ${show_databaseinfo.databasename}</div>\n                            <div class=\"informationen-content-details\"> Schema: ${show_databaseinfo.databaseschema}</div>\n                            <div class=\"informationen-content-details\"> Tabelle: ${show_databaseinfo.tablename}</div>\n                        </div>\n                        `;\n                        content.appendChild(newData)\n                    }\n                    });\n                }) (scope)\n                </script>\n            </div>\n        </div>\n    </div>\n</body>\n</html>\n\n\n\n\n\n\n\n\n",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1690,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "dbd1eb30ec44e669",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "Überwachung der Datenhaltungsschicht und Notifikation bei neuen Daten",
+        "info": "",
+        "x": 1180,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "cd4aac070a184ebc",
+        "type": "pythonshell in",
+        "z": "507f0b714cfb2e1d",
+        "name": "ÜberwachenDatenhaltung",
+        "pyfile": "C:\\Users\\USER\\...\\MonitoringDatabases_InclPlot_InclPred.py",
+        "virtualenv": "",
+        "continuous": false,
+        "stdInData": false,
+        "x": 520,
+        "y": 340,
+        "wires": [
+            [
+                "43e5c324c10ceb0f"
+            ]
+        ]
+    },
+    {
+        "id": "baec8303f27bad72",
+        "type": "inject",
+        "z": "507f0b714cfb2e1d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 280,
+        "y": 340,
+        "wires": [
+            [
+                "cd4aac070a184ebc"
+            ]
+        ]
+    },
+    {
+        "id": "43e5c324c10ceb0f",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "PlusTopic",
+        "func": "msg.topic = 'test';\nvar newDataFoundinclPlot = msg.payload;\nvar newDataFoundinclPlot_json = JSON.parse(newDataFoundinclPlot);\n\nmsg.payload = newDataFoundinclPlot_json;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 340,
+        "wires": [
+            [
+                "6088926b21cb0a6e"
+            ]
+        ]
+    },
+    {
+        "id": "6088926b21cb0a6e",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "NeueDatenOderDatenImBuffer",
+        "func": "msg.topic = 'predictions';\nvar payload = msg.payload;\n\n//If not existing yet, define a global buffer\nif (!global.get(\"predictionBuffer\")) {\n    global.set(\"predictionBuffer\", []);\n}\n\nvar predictionBuffer = global.get(\"predictionBuffer\");\n\n//New data is stored in the buffer\nif (payload.newData == true){\n     \n    //redefine payload to be stored in global buffer\n    payload = {\n        newData: true,\n        database: payload.database,\n        schema: payload.schema,\n        table: payload.table,\n        prediction1: payload.prediction1,\n        prediction2: payload.prediction2,\n        prediction3: payload.prediction3,\n        image: payload.image\n    };\n\n    //store newly detected data within buffer\n    predictionBuffer.push(payload)\n    global.set(\"predictionBuffer\", predictionBuffer);\n}\n\n\n//Send data from buffer (if buffer is not empty)\nif (predictionBuffer.length > 0) {\n    //access the first element from buffer, this element will be deleted in the frontend (when clicking the \"Auswahl\" button)\n    var firstbufferentry = predictionBuffer[0];\n    payload = {\n        newData: true,\n        database: firstbufferentry.database,\n        schema: firstbufferentry.schema,\n        table: firstbufferentry.table,\n        prediction1: firstbufferentry.prediction1,\n        prediction2: firstbufferentry.prediction2,\n        prediction3: firstbufferentry.prediction3,\n        image: firstbufferentry.image\n    }\n\n    //return new data flag such that banner is still displayed\n    msg.payload = payload;\n    return msg;\n}\n\nelse {\n    //if no data in buffer, return newData flag false\n    payload = {\n        newData: false,\n    }\n\n    msg.payload = payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 480,
+        "wires": [
+            [
+                "b86f054cec081db8",
+                "b7cd4ee8ae646e02",
+                "3461db47604638e6",
+                "d5f636b9947df42d"
+            ]
+        ]
+    },
+    {
+        "id": "bde9f14da1182ecd",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "PrintBuffer",
+        "func": "var predictionBuffer = global.get(\"predictionBuffer\");\nnode.warn(predictionBuffer);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1450,
+        "y": 1280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "082eb458b3b2275a",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "ResetBuffer",
+        "func": "global.set(\"predictionBuffer\", []);\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1210,
+        "y": 1220,
+        "wires": [
+            [
+                "fe7bb301322bc6c6"
+            ]
+        ]
+    },
+    {
+        "id": "9e9932ccf1f9e298",
+        "type": "inject",
+        "z": "507f0b714cfb2e1d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 960,
+        "y": 1220,
+        "wires": [
+            [
+                "082eb458b3b2275a"
+            ]
+        ]
+    },
+    {
+        "id": "fe7bb301322bc6c6",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "PrintBuffer",
+        "func": "var predictionBuffer = global.get(\"predictionBuffer\");\nnode.warn(predictionBuffer);",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1450,
+        "y": 1220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3b7d2a734e886ba4",
+        "type": "inject",
+        "z": "507f0b714cfb2e1d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 960,
+        "y": 1280,
+        "wires": [
+            [
+                "bde9f14da1182ecd"
+            ]
+        ]
+    },
+    {
+        "id": "b86f054cec081db8",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "CheckBuffer",
+        "func": "var predictionBuffer = global.get(\"predictionBuffer\");\nvar payload;\n\n//Execute the following section, if no new data is detected but buffer is not empty\nif (predictionBuffer.length > 0) {\n    payload = {\n        newData: true\n    }\n\n    //return new data flag such that banner is still displayed\n    msg.payload = payload;\n    return msg;\n}\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1150,
+        "y": 460,
+        "wires": [
+            [
+                "aa681d336f55591c"
+            ]
+        ]
+    },
+    {
+        "id": "d5f636b9947df42d",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "ParsenInJSON",
+        "func": "msg.topic = 'predictions';\nvar payload = msg.payload;\n\nmsg.payload = {\n    \"predictions\":\n    [\n        payload.prediction1,\n        payload.prediction2,\n        payload.prediction3,\n    ]\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 840,
+        "wires": [
+            [
+                "051c02df851291da",
+                "5dfb4544ed1efeda"
+            ]
+        ]
+    },
+    {
+        "id": "1623a07ee81cd7c2",
+        "type": "function",
+        "z": "507f0b714cfb2e1d",
+        "name": "LadenNeuerVorhersagenimBuffer",
+        "func": "var payload = msg.payload;\nvar predictionBuffer = global.get(\"predictionBuffer\");\n\n\nif (payload == \"predictionseen\"){\n    var removedfirstentry = predictionBuffer.shift();\n    //node.warn(removedfirstentry);\n    global.set(\"predictionBuffer\", predictionBuffer);\n    //node.warn(predictionBuffer);\n\n    payload = {\n        newData: false\n    };\n    msg.topic = 'predictions';\n    msg.payload = payload;\n    return msg;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 1080,
+        "wires": [
+            [
+                "6088926b21cb0a6e"
+            ]
+        ]
+    },
+    {
+        "id": "0f2724319fbfec3e",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "Einfaches Beispiel",
+        "info": "Drei neue Zeitreihen PostgreSQL gefunden.",
+        "x": 770,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "a42f2bbef7f38b37",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "Komplexes Beispiel",
+        "info": "Neue Daten in Objektspeicher und Datenbank.",
+        "x": 770,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7883c36a5107e265",
+        "type": "inject",
+        "z": "507f0b714cfb2e1d",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1020,
+        "y": 140,
+        "wires": [
+            [
+                "a49c4c4e10e65dec"
+            ]
+        ]
+    },
+    {
+        "id": "a49c4c4e10e65dec",
+        "type": "pythonshell in",
+        "z": "507f0b714cfb2e1d",
+        "name": "LadenDerDaten",
+        "pyfile": "C:\\Users\\USER\\...\\PrepareSimpleExample.py",
+        "virtualenv": "",
+        "continuous": false,
+        "stdInData": false,
+        "x": 1240,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7f433b06d990cccd",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "Hilfsfunktionen",
+        "info": "",
+        "x": 1200,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "f92081a306c2eff7",
+        "type": "comment",
+        "z": "507f0b714cfb2e1d",
+        "name": "Informationen zum Screenshot",
+        "info": "Subsequently the changes made in the frontend configuration for an optimized screenshot:\n\nHeadline top left corner: font-size: 25px,\nRest of the text: font-size: 18px,\nall borders: 2px,\nmiddle tile: min-height: 568px,\n\nUsed virtual device in firefox for optimal resolution:\nResolution: 1810 x 835\n\nSlight cropping on the right side of the resulting screenshot in draw.io.",
+        "x": 1730,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "16631427d0f83496",
+        "type": "ui_group",
+        "name": "Banner",
+        "tab": "e2a09ed74680805a",
+        "order": 1,
+        "disp": false,
+        "width": 30,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "76e9fb2cdc52aa5f",
+        "type": "ui_group",
+        "name": "Identifizierte Geräteklassen",
+        "tab": "e2a09ed74680805a",
+        "order": 2,
+        "disp": false,
+        "width": 11,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "2e4dd29d804c820d",
+        "type": "ui_group",
+        "name": "Semantiken zu den detektierten Daten",
+        "tab": "e2a09ed74680805a",
+        "order": 3,
+        "disp": false,
+        "width": 11,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a1a90f66581b7e7c",
+        "type": "ui_group",
+        "name": "Informationen zu den detektierten Daten",
+        "tab": "e2a09ed74680805a",
+        "order": 4,
+        "disp": false,
+        "width": 11,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e2a09ed74680805a",
+        "type": "ui_tab",
+        "name": "Zentrale Geräteidentifikation",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
