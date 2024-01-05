@@ -1,0 +1,21 @@
+To solely run the timeseries classifer of the experimental evaluation of the central device recognition assistant, please do the following:
+
+1. Download the MulticlassClassification python file
+2. Download the Classification directory with helper functions
+3. Set up an Anaconda environment as indicated in the env file (Python Version 3.11.6)
+4. Open the Spyder IDE verify that the correct environment is chosen 
+	(Tools-Preferences-Python interpreter-chose "Use the following Python intepreter" and select the python.exe in the anaconda env from 3.)
+5. Open the python code from 1. and set the working directory to the directory where the helper functions are stored (2.)
+6. Now there are two options:
+	a. just load the open source production data and run the code from scratch
+	b. directly load all results
+
+6a. Please download and import the final_data.spydata
+	The file contains all open source data used in this demonstration in a spydata file
+	Run the code from top to bottom
+
+6b. Download the Final_repeated_kCV_dataframe.spydata file
+	Before importing the file:
+		Please run the first cell of the code to load all packages
+		Please run additionally the cell with class HIVECOTE2rejectOption_proba(HIVECOTEV2)
+		The spyder file requires those functions/packages to be loaded before the import
